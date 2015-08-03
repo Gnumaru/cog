@@ -1,0 +1,11 @@
+# coverage configuration for Cog.
+[run]
+branch = True
+parallel = True
+source = cogapp
+
+[report]
+exclude_lines =
+    #pragma: no cover
+    raise CogInternalError\(
+precision = 2

@@ -1,0 +1,7 @@
+[default]
+ignore =
+    .treerc
+    .tox
+    .coverage*
+    build
+    *.egg *.egg-info
