@@ -12,8 +12,7 @@ which contents I'm posting here just for brevity:
 
 ========================================
 
-# H1
-Cog
+# Cog
 
 Cog is a file generation tool. It lets you use pieces of Python code as generators in your source files to generate whatever text you need.
 
@@ -87,7 +86,9 @@ Cog is installed with a standard Python distutils script:
 Download Cog from the Python Package Index.
 Unpack the distribution archive somewhere.
 Run the setup.py script that was unpacked:
+```
 $ python setup.py install
+```
 You should now have cog.py in your Python scripts directory.
 
 License
@@ -214,21 +215,25 @@ OPTIONS:
 ```
 
 In addition to running cog as a command on the command line:
-
+```
 $ cog [options] [arguments]
+```
 you can also invoke it as a module with the Python interpreter:
-
+```
 $ python -m cogapp [options] [arguments]
+```
 Note that the Python module is called “cogapp”.
 
 Input files
 Files on the command line are processed as input files. All input files are assumed to be UTF-8 encoded. Using a minus for a filename (-) will read the standard input.
 
 Files can also be listed in a text file named on the command line with an @:
-
+```
 $ cog @files_to_cog.txt
+```
 These @-files can be nested, and each line can contain switches as well as a file to process. For example, you can create a file cogfiles.txt:
 
+```
 cogfiles.txt
 
 # These are the files I run through cog
@@ -236,35 +241,42 @@ mycode.cpp
 myothercode.cpp
 myschema.sql -s " --**cogged**"
 readme.txt -s ""
+```
 then invoke cog like this:
-
+```
 cog -s " //**cogged**" @cogfiles.txt
+```
 Now cog will process four files, using C++ syntax for markers on all the C++ files, SQL syntax for the .sql file, and no markers at all on the readme.txt file.
 
 As another example, cogfiles2.txt could be:
-
+```
 cogfiles2.txt
 
 template.h -D thefile=data1.xml -o data1.h
 template.h -D thefile=data2.xml -o data2.h
+```
 with cog invoked like this:
-
+```
 cog -D version=3.4.1 @cogfiles2.txt
+```
 Cog will process template.h twice, creating both data1.h and data2.h. Both executions would define the variable version as “3.4.1”, but the first run would have thefile equal to “data1.xml” and the second run would have thefile equal to “data2.xml”.
 
 Overwriting files
 The -r flag tells cog to write the output back to the input file. If the input file is not writable (for example, because it has not been checked out of a source control system), a command to make the file writable can be provided with -w:
-
+```
 $ cog -r -w "p4 edit %s" @files_to_cog.txt
+```
 Setting globals
 Global values can be set from the command line with the -D flag. For example, invoking Cog like this:
-
+```
 cog -D thefile=fooey.xml mycode.txt
+```
 will run Cog over mycode.txt, but first define a global variable called thefile with a value of “fooey.xml”. This variable can then be referenced in your generator code. You can provide multiple -D arguments on the command line, and all will be defined and available.
 
 The value is always interpreted as a Python string, to simplify the problem of quoting. This means that:
-
+```
 cog -D NUM_TO_DO=12
+```
 will define NUM_TO_DO not as the integer 12, but as the string “12”, which are different and not equal values in Python. Use int(NUM_TO_DO) to get the numeric value.
 
 Checksummed output
@@ -297,8 +309,9 @@ for i in range(3):
 ```
 
 invoking cog like this:
-
+```
 cog -s " //(generated)" mycode.txt
+```
 will produce this output:
 
 ```
