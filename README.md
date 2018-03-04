@@ -33,7 +33,7 @@ Cog transforms files in a very simple way: it finds chunks of Python code embedd
 
 For example, if you run this file through cog:
 
-```python
+```
 // This is my C++ file.
 ...
 /*[[[cog
@@ -48,7 +48,7 @@ for fn in fnames:
 
 it will come out like this:
 
-```python
+```
 // This is my C++ file.
 ...
 /*[[[cog
@@ -98,7 +98,7 @@ Source files to be run through cog are mostly just plain text that will be passe
 
 The output area for each generator (between the ]]] and [[[end]]] lines) is deleted, and the output of running the Python code is inserted in its place. To accommodate all source file types, the format of the marker lines is irrelevant. If the line contains the special character sequence, the whole line is taken as a marker. Any of these lines mark the beginning of executable Python code:
 
-```python
+```
 //[[[cog
 /* cog starts now: [[[cog */
 -- [[[cog (this is cog Python code)
@@ -107,7 +107,7 @@ The output area for each generator (between the ]]] and [[[end]]] lines) is dele
 
 Cog can also be used in languages without multi-line comments. If the marker lines all have the same text before the triple brackets, and all the lines in the generator code also have this text as a prefix, then the prefixes are removed from all the generator lines before execution. For example, in a SQL file, this:
 
-```python
+```
 --[[[cog
 --   import cog
 --   for table in ['customers', 'orders', 'suppliers']:
@@ -132,7 +132,7 @@ drop table suppliers;
 
 Finally, a compact form can be used for single-line generators. The begin-code marker and the end-code marker can appear on the same line, and all the text between them will be taken as a single Python line:
 
-```python
+```
 // blah blah
 //[[[cog import MyModule as m; m.generateCode() ]]]
 //[[[end]]]
@@ -154,12 +154,12 @@ Writes text to the output.
 sOut is the string to write to the output.
 If dedent is True, then common initial white space is removed from the lines in sOut before adding them to the output. If trimblanklines is True, then an initial and trailing blank line are removed from sOut before adding them to the output. Together, these option arguments make it easier to use multi-line strings, and they only are useful for multi-line strings:
 
-```python
+```
 cog.out("""
     These are lines I
     want to write into my source file.
 """, dedent=True, trimblanklines=True)
-```python
+```
 
 cog.outl
 Same as cog.out, but adds a trailing newline.
@@ -270,7 +270,7 @@ will define NUM_TO_DO not as the integer 12, but as the string “12”, which a
 Checksummed output
 If cog is run with the -c flag, then generated output is accompanied by a checksum:
 
-```python
+```
 --[[[cog
 --   import cog
 --   for i in range(10):
@@ -287,7 +287,7 @@ To make it easier to identify generated lines when grepping your source files, t
 
 mycode.txt
 
-```python
+```
 [[[cog
 cog.outl('Three times:\n')
 for i in range(3):
@@ -301,7 +301,7 @@ invoking cog like this:
 cog -s " //(generated)" mycode.txt
 will produce this output:
 
-```python
+```
 [[[cog
 cog.outl('Three times:\n')
 for i in range(3):
