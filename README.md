@@ -1,4 +1,4 @@
-this is a fork from Ned Batchelder's Cog, a python text file generation tool which lets you use pieces of Python code as generators in your source files to generate whatever text you need
+This is a fork from Ned Batchelder's Cog, a python text file generation tool which lets you use pieces of Python code as generators in your source files to generate whatever text you need.
 
 The original repo can be found on bitbucket here
 
