@@ -18,16 +18,18 @@ Cog is a file generation tool. It lets you use pieces of Python code as generato
 
 The sections below are:
 
+* What does it do?
+* Design
+* Installation
+* Writing the source files
+* The cog module
+* Running cog
+* History
+* Feedback
+* See Also
+
 What does it do?
-Design
-Installation
-Writing the source files
-The cog module
-Running cog
-History
-Feedback
-See Also
-What does it do?
+------
 Cog transforms files in a very simple way: it finds chunks of Python code embedded in them, executes the Python code, and inserts its output back into the original file. The file can contain whatever text you like around the Python code. It will usually be source code.
 
 For example, if you run this file through cog:
@@ -70,6 +72,7 @@ When cog runs, it discards the last generated Python output, executes the genera
 The cog marker lines can contain any text in addition to the triple square bracket tokens. This makes it possible to hide the generator Python code from the source file. In the sample above, the entire chunk of Python code is a C++ comment, so the Python code can be left in place while the file is treated as C++ code.
 
 Design
+------
 Cog is designed to be easy to run. It writes its results back into the original file while retaining the code it executed. This means cog can be run any number of times on the same file. Rather than have a source generator file, and a separate output file, typically cog is run with one file serving as both generator and output.
 
 Because the marker lines accommodate any language syntax, the markers can hide the cog Python code from the source file. This means cog files can be checked into source control without worrying about keeping the source files separate from the output files, without modifying build procedures, and so on.
@@ -79,6 +82,7 @@ I experimented with using a templating engine for generating code, and found mys
 Cog lets you use the full power of Python for text generation, without a templating system dumbing down your tools for you.
 
 Installation
+------
 Cog requires Python 2.6, 2.7, 3.3, 3.4, 3.5, 3.6, or Jython 2.5.
 
 Cog is installed with a standard Python distutils script:
@@ -92,9 +96,11 @@ $ python setup.py install
 You should now have cog.py in your Python scripts directory.
 
 License
+------
 Cog is distributed under the MIT license. Use it to spread goodness through the world.
 
 Writing the source files
+------
 Source files to be run through cog are mostly just plain text that will be passed through untouched. The Python code in your source file is standard Python code. Any way you want to use Python to generate text to go into your file is fine. Each chunk of Python code (between the [[[cog and ]]] lines) is called a generator and is executed in sequence.
 
 The output area for each generator (between the ]]] and [[[end]]] lines) is deleted, and the output of running the Python code is inserted in its place. To accommodate all source file types, the format of the marker lines is irrelevant. If the line contains the special character sequence, the whole line is taken as a marker. Any of these lines mark the beginning of executable Python code:
@@ -148,6 +154,7 @@ If there are multiple generators in the same file, they are executed with the sa
 Cog tries to do the right thing with white space. Your Python code can be block-indented to match the surrounding text in the source file, and cog will re-indent the output to fit as well. All of the output for a generator is collected as a block of text, a common whitespace prefix is removed, and then the block is indented to match the indentation of the cog generator. This means the left-most non-whitespace character in your output will have the same indentation as the begin-code marker line. Other lines in your output keep their relative indentation.
 
 The cog module
+------
 A module called cog provides the functions you call to produce output into your file. The functions are:
 
 cog.out(sOut=’’ [, dedent=False][, trimblanklines=False])
@@ -176,7 +183,9 @@ cog.firstLineNum
 An attribute, the line number of the first line of Python code in the generator. This can be used to distinguish between two generators in the same input file, if needed.
 cog.previous
 An attribute, the text output of the previous run of this generator. This can be used for whatever purpose you like, including outputting again with cog.out().
+
 Running cog
+------
 Cog is a command-line utility which takes arguments in standard form.
 
 ```
@@ -225,6 +234,7 @@ $ python -m cogapp [options] [arguments]
 Note that the Python module is called “cogapp”.
 
 Input files
+------
 Files on the command line are processed as input files. All input files are assumed to be UTF-8 encoded. Using a minus for a filename (-) will read the standard input.
 
 Files can also be listed in a text file named on the command line with an @:
@@ -262,11 +272,13 @@ cog -D version=3.4.1 @cogfiles2.txt
 Cog will process template.h twice, creating both data1.h and data2.h. Both executions would define the variable version as “3.4.1”, but the first run would have thefile equal to “data1.xml” and the second run would have thefile equal to “data2.xml”.
 
 Overwriting files
+------
 The -r flag tells cog to write the output back to the input file. If the input file is not writable (for example, because it has not been checked out of a source control system), a command to make the file writable can be provided with -w:
 ```
 $ cog -r -w "p4 edit %s" @files_to_cog.txt
 ```
 Setting globals
+------
 Global values can be set from the command line with the -D flag. For example, invoking Cog like this:
 ```
 cog -D thefile=fooey.xml mycode.txt
@@ -280,6 +292,7 @@ cog -D NUM_TO_DO=12
 will define NUM_TO_DO not as the integer 12, but as the string “12”, which are different and not equal values in Python. Use int(NUM_TO_DO) to get the numeric value.
 
 Checksummed output
+------
 If cog is run with the -c flag, then generated output is accompanied by a checksum:
 
 ```
@@ -295,6 +308,7 @@ If cog is run with the -c flag, then generated output is accompanied by a checks
 If the generated code is edited by a misguided developer, the next time cog is run, the checksum won’t match, and cog will stop to avoid overwriting the edited code.
 
 Output line suffixes
+------
 To make it easier to identify generated lines when grepping your source files, the -s switch provides a suffix which is appended to every non-blank text line generated by Cog. For example, with this input file (mycode.txt):
 
 mycode.txt
@@ -329,6 +343,7 @@ This is line 2 //(generated)
 ```
 
 Miscellaneous
+------
 The -n option lets you tell cog what encoding to use when reading and writing files.
 
 The --verbose option lets you control how much cog should chatter about the files it is cogging. --verbose=2 is the default: cog will name every file it considers, and whether it has changed. --verbose=1 will only name the changed files. --verbose=0 won’t mention any files at all.
@@ -346,20 +361,21 @@ The -I flag adds a directory to the path used to find Python modules.
 The -z flag lets you omit the [[[end]]] marker line, and it will be assumed at the end of the file.
 
 History
+------
 Cog’s change log is on a separate change page.
 
 Feedback
+------
 I’d love to hear about your successes or difficulties using cog. Comment here, or send me a note.
 
 See Also
+------
 There are a handful of other implementations of the ideas in Cog:
-
-Argent is a Ruby implementation.
-Precog is a PHP implementation.
-PCG is a Perl implementation.
-Templarian is a similar tool, also in Python.
-Nocog is a build tool to detect files that should be run through cog.
+* Argent is a Ruby implementation.
+* Precog is a PHP implementation.
+* PCG is a Perl implementation.
+* Templarian is a similar tool, also in Python.
+* Nocog is a build tool to detect files that should be run through cog.
 You might like to read:
-
-Cog: A Code Generation Tool Written in Python, the Python Success Story I wrote about Cog.
-My blog, where I ramble on about software and other things that interest me.
+* Cog: A Code Generation Tool Written in Python, the Python Success Story I wrote about Cog.
+* My blog, where I ramble on about software and other things that interest me.
