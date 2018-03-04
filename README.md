@@ -462,11 +462,11 @@ I’d love to hear about your successes or difficulties using cog. Comment here,
 See Also
 ------
 There are a handful of other implementations of the ideas in Cog:
-* Argent is a Ruby implementation.
-* Precog is a PHP implementation.
-* PCG is a Perl implementation.
-* Templarian is a similar tool, also in Python.
-* Nocog is a build tool to detect files that should be run through cog.
+* [Argent](http://rubyforge.org/projects/argent/) is a Ruby implementation.
+* [Precog](http://babylon.idlevice.co.uk/php/precog/) is a PHP implementation.
+* [PCG](http://www.crazilocks.com/pcg.html) is a Perl implementation.
+* [Templarian](http://sourceforge.net/projects/templarian) is a similar tool, also in Python.
+* [Nocog](http://www.larryhastings.com/programming/nocog/) is a build tool to detect files that should be run through cog.
 You might like to read:
-* Cog: A Code Generation Tool Written in Python, the Python Success Story I wrote about Cog.
-* My blog, where I ramble on about software and other things that interest me.
+* [Cog: A Code Generation Tool Written in Python](http://www.python.org/about/success/cog/), the Python Success Story I wrote about Cog.
+* [My blog](https://nedbatchelder.com/blog), where I ramble on about software and other things that interest me.
